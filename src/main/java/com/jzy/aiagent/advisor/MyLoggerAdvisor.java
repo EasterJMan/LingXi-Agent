@@ -15,6 +15,7 @@ public class MyLoggerAdvisor implements CallAroundAdvisor, StreamAroundAdvisor{
         befor(advisedRequest);
         AdvisedResponse advisedResponse = chain.nextAroundCall(advisedRequest);
         observerAfter(advisedResponse);
+        log.info("1");
         return advisedResponse;
     }
 
