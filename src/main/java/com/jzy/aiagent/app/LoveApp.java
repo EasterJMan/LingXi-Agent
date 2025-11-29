@@ -4,13 +4,18 @@ import com.jzy.aiagent.advisor.MyLoggerAdvisor;
 import com.jzy.aiagent.advisor.ReReadingAdvisor;
 import com.jzy.aiagent.chatMemory.FileBasedChatMemory;
 import com.jzy.aiagent.entity.LoveReport;
+import com.jzy.aiagent.rag.LoveAppVectorStoreConfig;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
@@ -87,5 +92,30 @@ public class LoveApp {
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 .user(message).call().entity(LoveReport.class);
         return loveReport;
+    }
+
+
+    //AI恋爱知识库问答功能
+    @Resource
+    VectorStore loveAppVectorStore;
+
+    @Resource
+    Advisor loveAppRagCloudAdvisor;
+
+    public String doChatWithRag(String message, String chatId) {
+        ChatResponse chatResponse = chatClient.prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                .advisors(new MyLoggerAdvisor())
+                //本地知识库问答
+                .advisors(new QuestionAnswerAdvisor(loveAppVectorStore))
+                //使用阿里云百炼平台的知识库检索增强
+//                .advisors(loveAppRagCloudAdvisor)
+                .call()
+                .chatResponse();
+        String text = chatResponse.getResult().getOutput().getText();
+        log.info("text :{}", text);
+        return text;
     }
 }
