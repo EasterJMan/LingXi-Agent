@@ -102,6 +102,9 @@ public class LoveApp {
     @Resource
     Advisor loveAppRagCloudAdvisor;
 
+    @Resource
+    VectorStore pgVectorVectorStore;
+
     public String doChatWithRag(String message, String chatId) {
         ChatResponse chatResponse = chatClient.prompt()
                 .user(message)
@@ -111,7 +114,8 @@ public class LoveApp {
                 //本地知识库问答
                 .advisors(new QuestionAnswerAdvisor(loveAppVectorStore))
                 //使用阿里云百炼平台的知识库检索增强
-//                .advisors(loveAppRagCloudAdvisor)
+                .advisors(loveAppRagCloudAdvisor)
+//                .advisors(new QuestionAnswerAdvisor(pgVectorVectorStore))
                 .call()
                 .chatResponse();
         String text = chatResponse.getResult().getOutput().getText();
