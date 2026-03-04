@@ -26,24 +26,26 @@ public class LoveAppDocumentLoader {
         this.resourcePatternResolver = resourcePatternResolver;
     }
 
-    public List<Document> loadMarkdowns(){
+    public List<Document> loadMarkdowns() {
         List<Document> documents = new ArrayList<>();
         try {
             Resource[] resources = resourcePatternResolver.getResources("classpath:document/*.md");
             for (Resource resource : resources) {
                 String filename = resource.getFilename();
+                String status = filename.substring(filename.length() - 6, filename.length() - 4);
                 MarkdownDocumentReaderConfig config = MarkdownDocumentReaderConfig.builder()
                         .withHorizontalRuleCreateDocument(true)
                         .withIncludeCodeBlock(false)
                         .withIncludeBlockquote(false)
                         .withAdditionalMetadata("filename", filename)
+                        .withAdditionalMetadata("status", status)
                         .build();
-                MarkdownDocumentReader markdownDocumentReader = new MarkdownDocumentReader(resource,config);
+                MarkdownDocumentReader markdownDocumentReader = new MarkdownDocumentReader(resource, config);
                 documents.addAll(markdownDocumentReader.get());
             }
         } catch (IOException e) {
-            log.error("markdown文件加载异常:{}",e);
+            log.error("markdown文件加载异常:{}", e);
         }
-        return  documents;
+        return documents;
     }
 }

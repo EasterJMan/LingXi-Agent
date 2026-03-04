@@ -19,11 +19,19 @@ public class LoveAppVectorStoreConfig {
     private LoveAppDocumentLoader loveAppDocumentLoader;
 
 
+    @Resource
+    private MyTokenTextSplitter myTokenTestSplitter;
+
+    @Resource
+    private MyKeywordEnricher myKeywordEnricher;
+
     @Bean
     VectorStore loveAppVectorStore(EmbeddingModel dashScopeEmbeddingModel) {
         SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(dashScopeEmbeddingModel).build();
         List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
-        simpleVectorStore.add(documents);
+//        List<Document> documentList = myTokenTestSplitter.splitCustomized(documents);
+        List<Document> documentList = myKeywordEnricher.enrichDocuments(documents);
+        simpleVectorStore.add(documentList);
         return simpleVectorStore;
     }
 
