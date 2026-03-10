@@ -6,8 +6,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 自定义基于 Token 的切词器
+ */
 @Component
-public class MyTokenTextSplitter {
+class MyTokenTextSplitter {
     public List<Document> splitDocuments(List<Document> documents) {
         TokenTextSplitter splitter = new TokenTextSplitter();
         return splitter.apply(documents);

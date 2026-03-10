@@ -1,7 +1,6 @@
 package com.jzy.aiagent.config;
 
 import com.jzy.aiagent.rag.LoveAppDocumentLoader;
-import com.jzy.aiagent.rag.MyTokenTextSplitter;
 import jakarta.annotation.Resource;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
