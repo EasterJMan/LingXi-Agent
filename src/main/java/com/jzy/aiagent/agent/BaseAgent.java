@@ -1,5 +1,6 @@
-package com.jzy.aiagent.agent.model;
+package com.jzy.aiagent.agent;
 
+import com.jzy.aiagent.agent.model.AgentState;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.internal.StringUtil;
@@ -28,7 +29,7 @@ public abstract class BaseAgent {
     private String nextStepPrompt;  
   
     // 状态  
-    private AgentState state = AgentState.IDLE;  
+    private AgentState state = AgentState.IDLE;
   
     // 执行控制  
     private int maxSteps = 10;  

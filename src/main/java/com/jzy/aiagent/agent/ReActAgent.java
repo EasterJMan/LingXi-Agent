@@ -1,4 +1,4 @@
-package com.jzy.aiagent.agent.model;
+package com.jzy.aiagent.agent;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

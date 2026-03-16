@@ -1,10 +1,9 @@
-package com.jzy.aiagent.agent.model;
+package com.jzy.aiagent.agent;
 
 import com.jzy.aiagent.advisor.MyLoggerAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.tool.ToolCallback;
-import org.springframework.ai.tool.ToolCallbacks;
 import org.springframework.stereotype.Component;
 
 @Component
