@@ -1,4 +1,4 @@
-# AI Agent
+# 灵犀  Agent
 
 基于 **Spring Boot 3** 与 **Spring AI** 构建的 Java AI 智能体项目，集成阿里云通义千问（DashScope）、RAG 知识库增强、工具调用（Function Calling）以及 MCP（Model Context Protocol）客户端/服务端能力。项目包含一个恋爱咨询示例应用（LoveApp）和通用自主 Agent（YuManus）。
 
